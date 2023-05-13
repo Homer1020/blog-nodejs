@@ -1,0 +1,51 @@
+if post.thumbnail
+  img(src='/files/' + post.thumbnail)
+.field
+  label.label(for="thumbnail") Imágen Destacada
+  .file
+  label.file-label
+    input.file-input(type="file" name="thumbnail" id="thumbnail")
+    span.file-cta
+      span.file-icon
+        i.fas.fa-upload
+      span.file-label
+        | Choose a file…
+.field
+  label.label(for="title") Título 
+  input.input(
+    type="text"
+    placeholder="Ingrese el título de su publicación"
+    id="title"
+    name="title"
+    value=post.title
+  )
+.field
+  label.label(for="slug") Slug 
+  input.input(
+    type="text"
+    placeholder="Título para computadoras"
+    id="slug"
+    name="slug"
+    value=post.slug
+  )
+.field
+  label.label(for="content") Contenido 
+  textarea.textarea(
+    name="content"
+    rows="5"
+    id="content"
+  )
+    =post.content
+.field
+  label.label(for="category") Categoría
+  .select(style="width: 100%")
+    select(
+      name="category"
+      id="category"
+      style="width: 100%"
+    )
+      option(disabled selected) Seleccione una categoría
+      each category in categories
+        option(value=category.id, selected=(post.category_id === category.id))=category.displayName 
+.field 
+  input.button.is-success(type="submit", value=submitText)

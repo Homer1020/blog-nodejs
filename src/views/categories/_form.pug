@@ -1,0 +1,28 @@
+.field
+  label.label(for="displayName") Nombre 
+  input.input(
+    type="text"
+    placeholder="Ingrese el título de su categoría"
+    id="displayName"
+    name="displayName"
+    value=category.displayName
+  )
+.field
+  label.label(for="name") Slug 
+  input.input(
+    type="text"
+    placeholder="Título para computadoras"
+    id="name"
+    name="name"
+    value=category.name
+  )
+.field
+  label.label(for="description") Descripción 
+  textarea.textarea(
+    name="description"
+    rows="5"
+    id="description"
+  )
+    =category.description
+.field 
+  input.button.is-success(type="submit", value=submitText)

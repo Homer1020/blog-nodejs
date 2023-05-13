@@ -1,0 +1,13 @@
+extends ../layouts/app.pug
+block content 
+  .container
+    div.my-4
+      a.button.is-primary(href="/") Ver Todas 
+    main.columns.is-centered
+      .column.is-three-fifths
+        .box 
+          h1.title.is-4.is-uppercase Crear Publicación
+          form(action="/publicacion/crear" method="POST" enctype="multipart/form-data") 
+            -var submitText = 'Guardar'
+            include _form.pug
+      

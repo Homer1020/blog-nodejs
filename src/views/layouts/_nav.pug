@@ -1,0 +1,40 @@
+nav.navbar(role='navigation' aria-label='main navigation')
+  .container
+    .navbar-brand
+      a.navbar-item(href='/blog')
+        img(src='/img/logo.svg' width='130')
+      a.navbar-burger(role='button' aria-label='menu' aria-expanded='false' data-target='navbarBasicExample')
+        span(aria-hidden='true')
+        span(aria-hidden='true')
+        span(aria-hidden='true')
+    #navbarBasicExample.navbar-menu
+      .navbar-start
+        a(href="/blog").navbar-item
+          | Blog
+      .navbar-end
+        .navbar-item
+          .buttons
+            if(!isAuthenticated)
+              a(href="/registro").button.is-primary
+                strong Sign up
+              a(href="/login").button.is-light
+                | Log in
+            else
+              .dropdown.is-hoverable.is-right
+                .dropdown-trigger
+                  button.button(aria-haspopup='true' aria-controls='dropdown-menu')
+                    span= user.nickname
+                    span.icon.is-small
+                      i.fas.fa-angle-down(aria-hidden='true')
+                #dropdown-menu.dropdown-menu(role='menu')
+                  .dropdown-content
+                    a.dropdown-item(href='/perfil')
+                      | Mi Perfil
+                    a.dropdown-item(href='/')
+                      | Publicaciones
+                    if(isAdmin)
+                      a.dropdown-item(href="/categorias")
+                        | Categorías
+                    hr.dropdown-divider
+                    a.dropdown-item(href='/logout')
+                      | Cerrar Sessión

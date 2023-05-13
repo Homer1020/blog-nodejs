@@ -1,0 +1,50 @@
+extends ../layouts/app.pug
+block content 
+	.container.mt-5
+		main.columns.is-centered
+			.column.is-three-fifths
+				.box 
+					h1.title Registro
+					form(action="/registro" method="POST")
+						.field
+							label.label(for="name") Nombre 
+							input.input(
+								type="text"
+								placeholder="Ingrese su nombre"
+								id="name"
+								name="name"
+							)
+						.field
+							label.label(for="lastname") Apellido 
+							input.input(
+								type="text"
+								placeholder="Ingrese su apellido"
+								id="lastname"
+								name="lastname"
+							)
+						.field
+							label.label(for="nickname") Usuario 
+							input.input(
+								type="text"
+								placeholder="Coloque un usuario"
+								id="nickname"
+								name="nickname"
+							)
+						.field
+							label.label(for="email") Correo 
+							input.input(
+								type="email"
+								placeholder="Ingrese su correo"
+								id="email"
+								name="email"
+							)
+						.field
+							label.label(for="password") Contraseña 
+							input.input(
+								type="password"
+								placeholder="Ingrese una contraseña"
+								id="password"
+								name="password"
+							)
+						.field 
+							input.button.is-success(type="submit", value="Crear Cuenta")

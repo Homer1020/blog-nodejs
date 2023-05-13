@@ -1,0 +1,13 @@
+extends ../layouts/app.pug
+block content 
+  .container
+    div.my-4
+      a.button.is-primary(href="/categorias") Todas las Categorías
+    main.columns.is-centered
+      .column.is-three-fifths
+        .box 
+          h1.title.is-4.is-uppercase Editar Categoría
+          form(action=`/categorias/editar/${ category.name }` method="POST") 
+            -var submitText = 'Guardar Cambios'
+            include _form.pug
+      

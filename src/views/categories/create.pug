@@ -1,0 +1,13 @@
+extends ../layouts/app.pug
+block content 
+  .container
+    div.my-4
+      a.button.is-primary(href="/categorias") Todas las Categorías 
+    main.columns.is-centered
+      .column.is-three-fifths
+        .box 
+          h1.title.is-4.is-uppercase Crear Categoría
+          form(action="/categorias/crear" method="POST") 
+            -var submitText = 'Guardar'
+            include _form.pug
+      

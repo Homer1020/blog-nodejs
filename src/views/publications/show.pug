@@ -1,0 +1,52 @@
+extends ../layouts/app.pug
+block content 
+  .container
+    main 
+      .container.mt-3
+        .columns.is-centered
+          .column.is-9-desktop
+            if post.thumbnail
+              img(src='/files/' + post.thumbnail).post-thumbnail
+            div.my-4
+              a.button.is-primary.mr-3(href="javascript:back()") Regresar
+              if(isAuthenticated && post.User.id === user.id)
+                a.button.is-primary(href=`/publicacion/editar/${ post.slug }`) Editar
+            section.box
+              h1.title= post.title 
+              p= post.content
+
+            section.box.mt-3.section
+              h3.title.is-6 Comentarios
+              ul.list#comment-list
+                each comment in post.Comments
+                  li.media
+                    figure.media-left
+                      p.image.is-64x64
+                        img(src=`/files/${ comment.User.picture }`)
+                    .media-content
+                      .content
+                        p
+                          strong #{ comment.User.nickname }
+                          br
+                          span.comment-body #{ comment.body }
+                          if(isAuthenticated && (user.id === comment.user_id || post.User.id === user.id))
+                            br
+                            small
+                              a(href="#" class="comment-delete" data-id=comment.id) Eliminar
+                              | 
+                              a(href="#" class="comment-edit" data-id=comment.id) Editar
+
+              form(action="#" id="comment-form" data-user=JSON.stringify(user)).mt-5
+                article.media
+                  figure.media-left
+                    p.image.is-64x64
+                      img(src=user ? `/files/${ user.picture }` : '/profile.png')
+                  .media-content
+                    input(type="hidden" name="post_id" value=post.id)
+                    .field
+                      p.control
+                        textarea.textarea(placeholder='Add a comment...' name="body" id="body")
+                    nav.level
+                      .level-left
+                        .level-item
+                          button(type="submit").button.is-info Comentar

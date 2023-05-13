@@ -1,0 +1,17 @@
+extends ../layouts/app.pug
+block content 
+  .container 
+    div.my-4
+      a.button.is-primary(href="/categorias/crear") Crear Categoría
+    main 
+      h1.title.is-4.is-uppercase Categorias
+      ul
+        each category in categories 
+          li.mb-3 
+            .box.level.is-align-content-center
+              p.level-left= category.displayName
+              div.level-right
+                a.button.mr-2.is-outlined.is-success(href=`/categorias/${category.name}`) Ver
+                a.button.mr-2.is-outlined.is-info(href=`/categorias/editar/${category.name}`) Editar
+                form(action=`/categorias/eliminar/${ category.id }`, method="POST")
+                  input.button.is-outlined.is-danger(type="submit", value="Eliminar")

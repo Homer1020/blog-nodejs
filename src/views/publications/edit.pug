@@ -1,0 +1,13 @@
+extends ../layouts/app.pug
+block content 
+  .container
+    div.my-4
+      a.button.is-primary(href="javascript:back()") Cancelar
+    main.columns.is-centered
+      .column.is-three-fifths
+        .box 
+          h1.title.is-4.is-uppercase Editar Publicación
+          form(action=`/publicacion/editar/${ post.slug }` method="POST" enctype="multipart/form-data") 
+            -var submitText = 'Guardar Cambios'
+            include _form.pug
+      

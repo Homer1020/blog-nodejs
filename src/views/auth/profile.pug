@@ -1,0 +1,64 @@
+extends ../layouts/app.pug
+block content 
+	.container.mt-5
+		main.columns.is-centered
+			.column.is-three-fifths
+				.box 
+					h1.title.is-4.is-uppercase Mi Perfil
+					form(action="/perfil" method="POST" enctype="multipart/form-data")
+						.field
+							label.label(for="picture") Foto de Perfil
+							.file
+							label.file-label
+								input.file-input(type="file" name="picture" id="picture")
+								span.file-cta
+									span.file-icon
+										i.fas.fa-upload
+									span.file-label
+										| Choose a file…
+						.field
+							label.label(for="name") Nombre 
+							input.input(
+								type="text"
+								placeholder="Ingrese su nombre"
+								id="name"
+								name="name"
+								value=user.name
+							)
+						.field
+							label.label(for="lastname") Apellido 
+							input.input(
+								type="text"
+								placeholder="Ingrese su apellido"
+								id="lastname"
+								name="lastname"
+								value=user.lastname
+							)
+						.field
+							label.label(for="nickname") Usuario 
+							input.input(
+								type="text"
+								placeholder="Coloque un usuario"
+								id="nickname"
+								name="nickname"
+								value=user.nickname
+							)
+						.field
+							label.label(for="email") Correo 
+							input.input(
+								type="email"
+								placeholder="Ingrese su correo"
+								id="email"
+								name="email"
+								value=user.email
+							)
+						.field
+							label.label(for="password") Contraseña 
+							input.input(
+								type="password"
+								placeholder="Ingrese una contraseña"
+								id="password"
+								name="password"
+							)
+						.field 
+							input.button.is-success(type="submit", value="Guardar Cambios")

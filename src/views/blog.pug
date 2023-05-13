@@ -1,0 +1,26 @@
+extends ./layouts/app.pug
+block content 
+  .container
+    h1.title.is-3.is-uppercase.mb-5 Blog
+    .columns
+      each post in posts 
+        .column.is-3
+          .card
+            .card-image
+              a(href=`/publicacion/${ post.slug }`)
+                figure.image.is-4by3
+                  img(src=`/files/${ post.thumbnail }`, style="object-fit: cover;")
+            .card-content
+              .media
+                .media-left
+                  a(href="#")
+                    figure.image.is-48x48
+                      img(src=`/files/${ post.User.picture }`)
+                .media-content
+                  p.title.is-5
+                    a(href=`/publicacion/${ post.slug }`)= post.title
+                  p.subtitle.is-6
+                    a(href="#")= `@${post.User.nickname}`
+              .content= post.content
+                br
+                time(datetime='2016-1-1')= helpers.getTimeAgo(post.createdAt)
