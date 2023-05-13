@@ -10,5 +10,6 @@ router.use(require('./auth'))
 router.use('/api', require('./api/comments.js'))
 
 router.get('/blog', pagesController.blog)
+router.get('/blog/categoria/:category', pagesController.blog)
 
 module.exports = router

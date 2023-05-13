@@ -6,9 +6,9 @@ block content
         .columns.is-centered
           .column.is-9-desktop
             if post.thumbnail
-              img(src='/files/' + post.thumbnail).post-thumbnail
+              img(src='/files/' + post.thumbnail, style="width: 100%; height: 300px; object-fit: cover;").post-thumbnail
             div.my-4
-              a.button.is-primary.mr-3(href="javascript:back()") Regresar
+              a.button.is-primary.mr-3(href="/blog") Ir al Blog
               if(isAuthenticated && post.User.id === user.id)
                 a.button.is-primary(href=`/publicacion/editar/${ post.slug }`) Editar
             section.box
