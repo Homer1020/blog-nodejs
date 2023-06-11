@@ -1,64 +1,39 @@
 extends ../layouts/app.pug
 block content 
+	include _input
 	.container.mt-5
 		main.columns.is-centered
 			.column.is-three-fifths
 				.box 
 					h1.title.is-4.is-uppercase Mi Perfil
+					if(user.picture)
+						figure.image.is-128x128.mx-auto.mb-4
+							img#output-image.is-rounded(src=`/files/${ user.picture }`, alt=`Usuario ${ user.name } ${ user.lastname }`)
 					form(action="/perfil" method="POST" enctype="multipart/form-data")
 						.field
 							label.label(for="picture") Foto de Perfil
 							.file
 							label.file-label
-								input.file-input(type="file" name="picture" id="picture")
+								input.file-input(type="file" name="picture" id="picture" accept="image/*")
 								span.file-cta
 									span.file-icon
 										i.fas.fa-upload
 									span.file-label
 										| Choose a file…
 						.field
-							label.label(for="name") Nombre 
-							input.input(
-								type="text"
-								placeholder="Ingrese su nombre"
-								id="name"
-								name="name"
-								value=user.name
-							)
+							label.label(for="name") Nombre
+							+input('name', 'text', false, user.name, true)
 						.field
 							label.label(for="lastname") Apellido 
-							input.input(
-								type="text"
-								placeholder="Ingrese su apellido"
-								id="lastname"
-								name="lastname"
-								value=user.lastname
-							)
+							+input('lastname', 'text', false, user.lastname)
 						.field
 							label.label(for="nickname") Usuario 
-							input.input(
-								type="text"
-								placeholder="Coloque un usuario"
-								id="nickname"
-								name="nickname"
-								value=user.nickname
-							)
+							+input('nickname', 'text', false, user.nickname)
 						.field
 							label.label(for="email") Correo 
-							input.input(
-								type="email"
-								placeholder="Ingrese su correo"
-								id="email"
-								name="email"
-								value=user.email
-							)
+							+input('email', 'email', false, user.email)
 						.field
 							label.label(for="password") Contraseña 
-							input.input(
-								type="password"
-								placeholder="Ingrese una contraseña"
-								id="password"
-								name="password"
-							)
+							+input('password', 'password', false)
 						.field 
 							input.button.is-success(type="submit", value="Guardar Cambios")

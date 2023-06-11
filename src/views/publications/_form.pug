@@ -1,10 +1,12 @@
 if post.thumbnail
-  img(src='/files/' + post.thumbnail)
+  img#output-image(src='/files/' + post.thumbnail)
+else 
+  img#output-image(src='')
 .field
   label.label(for="thumbnail") Imágen Destacada
   .file
   label.file-label
-    input.file-input(type="file" name="thumbnail" id="thumbnail")
+    input.file-input(type="file" name="thumbnail" id="thumbnail" accept="image/*")
     span.file-cta
       span.file-icon
         i.fas.fa-upload
@@ -18,6 +20,7 @@ if post.thumbnail
     id="title"
     name="title"
     value=post.title
+    autofocus
   )
 .field
   label.label(for="slug") Slug 
@@ -30,12 +33,22 @@ if post.thumbnail
   )
 .field
   label.label(for="content") Contenido 
-  textarea.textarea(
+  input(
+    type="hidden"
     name="content"
-    rows="5"
     id="content"
+    value=post.content
   )
-    =post.content
+  trix-editor.textarea.content(input="content" style="resize: auto; overflow: auto")
+.field
+  label.label(for="excerpt") Estracto 
+  textarea.textarea(
+    name="excerpt"
+    rows="5"
+    id="excerpt"
+    placeholder="Ingrese un estracto para la publicación (Descripción corta)"
+  )
+   |#{ post.excerpt }
 .field
   label.label(for="category") Categoría
   .select(style="width: 100%")

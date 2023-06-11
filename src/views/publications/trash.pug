@@ -2,16 +2,22 @@ extends ../layouts/app.pug
 block content 
   .container 
     div.my-4
-      a.button.mr-3.is-primary(href="javascript:back()") Regresar 
+      a.button.mr-3.is-primary(href="/") Regresar 
     main
       h1.title.is-4.is-uppercase Papelera
-      ul
-        each post in posts 
-          li.mb-3 
-            .box.level.is-align-content-center
-              p.level-left= post.title
-              div.level-right
-                form(action=`/publicacion/restaurar/${ post.id }`, method="POST")
-                  input.button.mr-3.is-outlined.is-success(type="submit", value="restaurar")
-                form(action=`/publicacion/eliminar/${ post.id }/force`, method="POST")
-                  input.button.is-outlined.is-danger(type="submit", value="Eliminar Permanentemente")
+      if(!posts.length)
+        .notification.is-info.is-light 
+          p No hay publicaciones en la papelera
+      else
+        ul
+          each post in posts 
+            li.mb-3 
+              .box.level.is-align-content-center
+                p.level-left= post.title
+                div.level-right
+                  form(action=`/publicacion/restaurar/${ post.id }`, method="POST")
+                    input.button.mr-3.is-outlined.is-success(type="submit", value="restaurar")
+                  form(action=`/publicacion/eliminar/${ post.id }/force`, method="POST")
+                    input.button.is-outlined.is-danger(type="submit", value="Eliminar Permanentemente")
+      - const originPath = '/publicacion/papelera'
+      include ../partials/_pagination

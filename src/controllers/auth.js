@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt')
-const User = require('../models/user')
+const User = require('../models/User')
 const Jimp = require('jimp')
 const fs = require('fs')
 const path = require('path')
@@ -10,14 +10,12 @@ exports.registerView = (req, res) => {
 
 exports.register = async (req, res) => {
 	try {
-
 		const data = req.body
 		const salt = bcrypt.genSaltSync(10)
 		const hash = bcrypt.hashSync(data.password, salt)
 		data.password = hash
-		data.role_id = 2
 
-		const user = await User.create(data)
+		await User.create(data)
 
 		req.flash('success', 'Se creo tu cuenta correctamente')
 		return res.redirect('/login')
@@ -37,11 +35,11 @@ exports.login = async (req, res) => {
 	try {
 		const user = await User.findOne({
 			where: {
-				nickname: req.body.nickname
+				email: req.body.email
 			}
 		})
 		if(!(user && bcrypt.compareSync(req.body.password, user.password))) {
-			req.flash('Usuario o contraseña incorrectos')
+			req.flash('error', 'Usuario o contraseña incorrectos')
 			return res.redirect('/login')
 		}
 
@@ -50,7 +48,7 @@ exports.login = async (req, res) => {
 
 		req.flash('info', `Bienvenido ${ user.name } ${ user.lastname }`)
 
-		return res.redirect('/')
+		return res.redirect(user.role_id === 3 ? '/blog' : '/')
 	} catch(err) {
 		req.flash('error', 'Ocurrio un error')
 		return res.redirect('/login')
@@ -93,7 +91,11 @@ exports.saveProfile = async (req, res) => {
 		user.lastname = lastname
 		user.nickname = nickname
 		user.email = email
-		if(password) user.password = password
+		if(password) {
+			const salt = bcrypt.genSaltSync(10)
+			const hash = bcrypt.hashSync(password, salt)
+			user.password = hash
+		}
 
 		await user.save()
 

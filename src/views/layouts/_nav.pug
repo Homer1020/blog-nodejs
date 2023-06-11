@@ -1,4 +1,4 @@
-nav.navbar(role='navigation' aria-label='main navigation')
+nav.navbar(role='navigation' aria-label='main navigation' class='has-background-white')
   .container
     .navbar-brand
       a.navbar-item(href='/blog')
@@ -11,6 +11,10 @@ nav.navbar(role='navigation' aria-label='main navigation')
       .navbar-start
         a(href="/blog").navbar-item.is-uppercase
           | Blog
+        a(href="/about-me").navbar-item.is-uppercase
+          | Sobre mí
+        a(href="/contacto").navbar-item.is-uppercase
+          | Contacto
       .navbar-end
         .navbar-item
           .buttons
@@ -30,8 +34,9 @@ nav.navbar(role='navigation' aria-label='main navigation')
                   .dropdown-content
                     a.dropdown-item(href='/perfil')
                       | Mi Perfil
-                    a.dropdown-item(href='/')
-                      | Publicaciones
+                    if(isNotGuess)
+                      a.dropdown-item(href='/')
+                        | Publicaciones
                     if(isAdmin)
                       a.dropdown-item(href="/categorias")
                         | Categorías

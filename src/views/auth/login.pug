@@ -1,26 +1,17 @@
 extends ../layouts/app.pug
 block content 
+	include _input
 	.container.mt-5
 		main.columns.is-centered
-			.column.is-three-fifths
+			.column.is-5
 				.box 
 					h1.title Iniciar Sesión
 					form(action="/login" method="POST")
 						.field
-							label.label(for="nickname") Usuario 
-							input.input(
-								type="text"
-								placeholder="Ingrese su usuario (Tenga en cuenta mayusculas y minusculas)"
-								id="nickname"
-								name="nickname"
-							)
+							label.label(for="email") Correo
+							+input('email', 'email', true, '', true)
 						.field
 							label.label(for="password") Contraseña 
-							input.input(
-								type="password"
-								placeholder="Ingrese su contraseña"
-								id="password"
-								name="password"
-							)
+							+input('password', 'password')
 						.field 
 							input.button.is-success(type="submit", value="Entrar")

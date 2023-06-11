@@ -15,6 +15,10 @@ const Post = db.define('Post', {
     allowNull: false,
     unique: true
   },
+  excerpt: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  },
   content: {
     type: DataTypes.TEXT,
     allowNull: false

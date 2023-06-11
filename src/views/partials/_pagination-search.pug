@@ -1,0 +1,21 @@
+if(pagination.numOfPages > 1)
+  nav.pagination(role='navigation' aria-label='pagination')
+    a(
+      class=`pagination-previous ${ +pagination.page <= 1 ? 'is-disabled' : '' }`
+      href=`/blog/search?q=${ q }&page=${ +pagination.page - 1 }`
+    ) Página anterior
+    a(
+      class=`pagination-next ${ +pagination.page >= +pagination.numOfPages ? 'is-disabled' : '' }`
+      href=`/blog/search?q=${ q }&page=${ +pagination.page + 1 }`
+    ) Página siguiente
+    ul.pagination-list
+      - var count = 0
+      while count < pagination.numOfPages
+        - page = count + 1
+        li
+          a(
+            aria-label=`Ir a la página ${ page }`
+            href=`/blog/search?q=${ q }&page=${ page }`
+            class=`pagination-link ${ page === +pagination.page ? 'is-current' : '' }`
+          )= page
+          - count++

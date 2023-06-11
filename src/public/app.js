@@ -45,7 +45,7 @@ const handleComment = e => {
         const html = `
           <li class="media">
             <figure class="media-left">
-              <p class="image is-64x64"><img src="/files/${ dataUser.picture }"/></p>
+              <p class="image is-64x64"><img src="${ dataUser.picture ? `/files/${ dataUser.picture }` : '/profile.png'}"/></p>
             </figure>
             <div class="media-content">
               <div class="content">
@@ -64,6 +64,11 @@ const handleComment = e => {
         `.trim()
         $commentList.innerHTML += html
         $commentForm.reset()
+        Swal.fire({
+          text: 'Se comentó la publicación',
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        })
       }
     })
   }
@@ -172,3 +177,46 @@ if($commentForm) {
   $commentList.addEventListener('click', handleCommentDelete)
   $commentList.addEventListener('click', handleCommentEdit)
 }
+
+/* BLUR IN INPUT TO GENERATE SLUG */
+const $title = document.getElementById('title') || document.getElementById('displayName')
+const $slug = document.getElementById('slug') || document.getElementById('name')
+
+if($title) {
+  $title.addEventListener('blur', e => {
+    $slug.value = $title
+                    .value
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "")
+                    .toLowerCase()
+                    .replace(/\s/g, '-')
+  })
+}
+
+/**
+ * Preview of upload Image
+ */
+
+const outputImage = document.getElementById('output-image'),
+      uploadImage = document.getElementById('picture') || document.getElementById('thumbnail')
+
+
+const reader = new FileReader()
+
+reader.addEventListener('load', () => {
+  outputImage.src = reader.result
+})
+
+const handlePreviewImage = () => {
+  reader.readAsDataURL(uploadImage.files[0])
+}
+
+if(uploadImage) {
+  uploadImage.addEventListener('change', handlePreviewImage)
+}
+
+/**
+ * EDITOR
+ */
+const elementEditor = document.querySelector("trix-editor")
+console.log(elementEditor.editor)

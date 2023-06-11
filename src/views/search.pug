@@ -1,23 +1,25 @@
 extends ./layouts/app.pug
 block content 
   .container
-    h1.title.is-4.is-uppercase.my-5 Blog #{ category ? `- ${ category }` : '' }
+    div.is-flex.is-align-items-center.is-justify-between
+      h1.title.is-4.is-uppercase.my-5 Buscar "#{ q }"
+      a(href="/blog").button.is-primary Todas las publicaciones
     .columns 
       .column.is-9
         if(!posts.length)
-          .notification.is-info.is-light 
-            p No hay publicaciones
+          .notification.is-success.is-light
+            | No hay posts que coincidan con "#{ q }"
         else
           .columns.is-multiline
             each post in posts 
               .column.is-4
                 include partials/_post
           - const originPath = '/blog'
-          include partials/_pagination
+          include partials/_pagination-search
       aside.column.is-3
-        section.block.box.mb-5 
+        section.block.box.mb-5
           h2.title.is-6.is-uppercase Buscar Publicación
-          form(action="/blog/search")
+          form(action="/blog/search/")
             .field.has-addons
               .control(style='width: 100%')
                 input.input(
@@ -26,16 +28,8 @@ block content
                   name='q'
                   style='width: 100%'
                   required
+                  value=q
                 )
               .control
                 button(type='submit').button.is-primary
                   i.fa.fa-search
-        section.block.box.content
-          h2.title.is-6.is-uppercase Categorías Disponibles
-          nav 
-            ul 
-              each category in allCategories 
-                li 
-                  a(href=`/blog?category=${ category.name }`)= category.displayName
-              li 
-                a(href="/blog") Sin Categoría

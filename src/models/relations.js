@@ -2,11 +2,14 @@ const db = require("../config/database")
 
 const Category = require("./Category")
 const Post = require("./Post")
-const Role = require("./Role")
 const User = require("./User")
 const Comment = require("./Comment")
 
 Category.hasMany(Post, {
+  foreignKey: 'category_id'
+})
+
+Post.belongsTo(Category, {
   foreignKey: 'category_id'
 })
 
@@ -25,7 +28,6 @@ Post.hasMany(Comment, {
 Comment.belongsTo(Post, {
   foreignKey: 'post_id'
 })
-
 
 User.hasMany(Comment, {
   foreignKey: 'user_id'

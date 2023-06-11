@@ -8,14 +8,30 @@ const path = require('path')
 const Jimp = require('jimp')
 
 exports.index = async (req, res) => {
+	let { page } = req.query
+	page = !isNaN(+page) ? page : 1
+
   const posts = await Post.findAll({
     where: {
       user_id: req.session.userId
-    }
+    },
+    order: [
+      ['id', 'DESC']
+    ],
+    limit: 6,
+		offset: (page - 1) * 6,
   });
 
+  const allPostsLength = await Post.count({ where: { user_id: req.session.userId } })
+  const numOfPages = Math.ceil(allPostsLength / 6)
+
   res.render('publications/index', {
-    posts
+    posts,
+    pagination: {
+      allPostsLength,
+      numOfPages,
+      page
+    }
   });
 }
 
@@ -38,7 +54,8 @@ exports.show = async (req, res) => {
       {
         model: Comment,
         include: User
-      }
+      },
+      'Category'
     ]
   })
   return res.render('publications/show', {
@@ -66,8 +83,8 @@ exports.edit = async (req, res) => {
 
 exports.update = async (req, res) => {
   try {
-    const { title, slug, content, category } = req.body
-    const newDataPost = { title, slug, content, category_id: category }
+    const { title, slug, content, excerpt, category } = req.body
+    const newDataPost = { title, slug, content, category_id: category, excerpt }
     if(req.file) {
       newDataPost.thumbnail = req.file.filename
       const image = await Jimp.read(req.file.path)
@@ -107,17 +124,21 @@ exports.update = async (req, res) => {
 
 exports.store = async (req, res) => {
   try {
-    const { title, slug, content, category } = req.body
-    const image = await Jimp.read(req.file.path)
-    image
-      .cover(800, 600) 
-      .quality(90)
-      .writeAsync(`./src/public/files/${req.file.filename}`)
+    const { title, slug, content, excerpt, category } = req.body
+    if(req.file) {
+      newDataPost.thumbnail = req.file.filename
+      const image = await Jimp.read(req.file.path)
+      image
+        .cover(800, 600) 
+        .quality(90)
+        .writeAsync(`./src/public/files/${req.file.filename}`)
+    }
     await Post.create({
       thumbnail: req.file.filename,
       title,
       slug,
       content,
+      excerpt,
       category_id: category,
       user_id: req.session.userId
     })
@@ -153,14 +174,29 @@ exports.trash = async (req, res) => {
 
 exports.trashIndex = async (req, res) => {
   try {
-
-    const posts = await Post.findAll({
+    
+    let { page } = req.query
+	  page = !isNaN(+page) ? page : 1
+    const posts = await Post.findAndCountAll({
       where: { deletedAt: { [Op.not]: null }, user_id: req.session.userId },
       paranoid: false,
+      order: [
+        ['id', 'DESC']
+      ],
+      limit: 2,
+      offset: (page - 1) * 2,
     })
 
+    const allPostsLength = posts.count
+    const numOfPages = Math.ceil(allPostsLength / 2)
+
     res.render('publications/trash', {
-      posts
+      posts: posts.rows,
+      pagination: {
+        allPostsLength,
+        numOfPages,
+        page
+      }
     })
 
   }catch(err) {
@@ -216,7 +252,7 @@ exports.restore = async (req, res) => {
     await post.restore()
 
     req.flash('info', 'Se restauro la publicación correctamente')
-    return res.redirect(`/publicacion/${ post.slug }`)
+    return res.redirect('/')
 
   } catch(err) {
     req.flash('error', err?.message || 'Error en la petición')

@@ -13,3 +13,9 @@ exports.isAdmin = (req, res, next) => {
 	req.flash('error', 'Acceso Denegando')
 	return res.redirect('back')
 }
+
+exports.isNotGuess = (req, res, next) => {
+	if(req.session?.userRoleId !== 3) return next()
+	req.flash('error', 'Acceso Denegando')
+	return res.redirect('/blog')
+}

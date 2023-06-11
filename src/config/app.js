@@ -33,8 +33,10 @@ app.use(express.static(path.join(__dirname, '../public')))
 app.use('/', async (req, res, next) => {
   res.locals.messages = req.flash('info')
   res.locals.errors = req.flash('error')
+  res.locals.vErrors = req.flash('vErrors')
   res.locals.isAuthenticated = req.session?.userId || false
   res.locals.isAdmin = req.session?.userRoleId === 1
+  res.locals.isNotGuess = req.session?.userRoleId !== 3
   if(res.locals.isAuthenticated) {
     res.locals.user = await User.findByPk(req.session.userId, {
       attributes: {exclude: ['password', 'createdAt', 'updatedAt', 'role_id']},

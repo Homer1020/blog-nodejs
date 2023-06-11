@@ -1,0 +1,28 @@
+.card.card-post(style="height: 100%")
+  .card-image
+    a(href=`/publicacion/${ post.slug }`)
+      figure.image.is-4by3
+        img(src=`/files/${ post.thumbnail }`, style="object-fit: cover;")
+  .card-content
+    .media.mb-3
+      .media-left
+        a(href="#")
+          figure.image.is-48x48
+            if(post.User.picture)
+              img(src=`/files/${ post.User.picture }`)
+            else
+              img(src='/profile.png')
+      .media-content
+        p.title.is-5
+          a(href=`/publicacion/${ post.slug }`)= post.title
+        p.subtitle.is-6
+          a(href="#")= `@${post.User.nickname}`
+    if(post.Category)
+      p
+        a(href=`/blog?category=${ post.Category.name }`).tag.is-info.mb-3= post.Category.displayName
+    else
+      p.tag.is-dark.mb-3 Sin Categoría
+    .content= post.excerpt
+      br
+      small
+        time(datetime='2016-1-1')= helpers.getTimeAgo(post.createdAt)

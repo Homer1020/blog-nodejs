@@ -6,14 +6,20 @@ block content
       a.button.is-primary(href="/publicacion/papelera") Papelera
     main 
       h1.title.is-4.is-uppercase Mis Publicaciones
-      ul
-        each post in posts 
-          li.mb-3 
-            .box.level.is-align-content-center
-              p.level-left= post.title
-              div.level-right
-                a.button.mr-2.is-outlined.is-success(href=`/publicacion/${post.slug}`) Ver
-                a.button.mr-2.is-outlined.is-info(href=`/publicacion/editar/${post.slug}`) Editar
-                form(action=`/publicacion/eliminar/${ post.id }`, method="POST")
-                  input(type="hidden", name="_method" value="PUT")
-                  input.button.is-outlined.is-danger(type="submit", value="Eliminar")
+      if(!posts.length)
+        .notification.is-info.is-light 
+          p No tienes publicaciones
+      else
+        ul
+          each post in posts 
+            li.mb-3 
+              .box.level.is-align-content-center
+                p.level-left= post.title
+                div.level-right
+                  a.button.mr-2.is-outlined.is-success(href=`/publicacion/${post.slug}`) Ver
+                  a.button.mr-2.is-outlined.is-info(href=`/publicacion/editar/${post.slug}`) Editar
+                  form(action=`/publicacion/eliminar/${ post.id }`, method="POST")
+                    input(type="hidden", name="_method" value="PUT")
+                    input.button.is-outlined.is-danger(type="submit", value="Eliminar")
+    - const originPath = '/'
+    include ../partials/_pagination

@@ -7,13 +7,18 @@ block content
           .column.is-9-desktop
             if post.thumbnail
               img(src='/files/' + post.thumbnail, style="width: 100%; height: 300px; object-fit: cover;").post-thumbnail
-            div.my-4
-              a.button.is-primary.mr-3(href="/blog") Ir al Blog
-              if(isAuthenticated && post.User.id === user.id)
-                a.button.is-primary(href=`/publicacion/editar/${ post.slug }`) Editar
+            div.my-4.is-flex.is-align-items-center.is-justify-content-space-between
+              div
+                a.button.is-primary.mr-3(href="/blog") Ir al Blog
+                if(isAuthenticated && post.User.id === user.id)
+                  a.button.is-primary(href=`/publicacion/editar/${ post.slug }`) Editar
+              if(post.Category)
+                p
+                  span Categoría:&nbsp;
+                  span.tag.is-link= post.Category.displayName
             section.box
               h1.title= post.title 
-              p= post.content
+              div.content !{ post.content }
 
             section.box.mt-3.section
               h3.title.is-6 Comentarios
@@ -22,7 +27,7 @@ block content
                   li.media
                     figure.media-left
                       p.image.is-64x64
-                        img(src=`/files/${ comment.User.picture }`)
+                        img(src=`${ comment.User.picture ? `/files/${ comment.User.picture }` : '/profile.png'}`)
                     .media-content
                       .content
                         p
@@ -40,7 +45,10 @@ block content
                 article.media
                   figure.media-left
                     p.image.is-64x64
-                      img(src=user ? `/files/${ user.picture }` : '/profile.png')
+                      if(user && user.picture)
+                        img(src=`/files/${ user.picture }`)
+                      else
+                        img(src='/profile.png')
                   .media-content
                     input(type="hidden" name="post_id" value=post.id)
                     .field

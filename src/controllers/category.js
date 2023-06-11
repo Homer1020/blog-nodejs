@@ -2,8 +2,28 @@ const Category = require('../models/Category')
 const Post = require('../models/Post')
 
 exports.index = async (req, res) => {
-  const categories = await Category.findAll()
-  return res.render('categories/index', { categories })
+  let { page } = req.query
+	page = !isNaN(+page) ? page : 1
+
+  const categories = await Category.findAndCountAll({
+    order: [
+      ['id', 'DESC']
+    ],
+    limit: 6,
+		offset: (page - 1) * 6,
+  })
+
+  const allPostsLength = categories.count
+  const numOfPages = Math.ceil(allPostsLength / 6)
+
+  return res.render('categories/index', {
+    categories: categories.rows,
+    pagination: {
+      allPostsLength,
+      numOfPages,
+      page
+    }
+  })
 }
 
 exports.create = (req, res) => {

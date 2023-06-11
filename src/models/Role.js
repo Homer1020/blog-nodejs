@@ -12,7 +12,8 @@ const Role = db.define('Role', {
     allowNull: false
   }
 }, {
-  tableName: 'roles'
+  tableName: 'roles',
+  timestamps: false
 })
 
 module.exports = Role

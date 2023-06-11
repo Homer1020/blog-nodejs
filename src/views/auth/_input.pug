@@ -1,0 +1,16 @@
+mixin input(field, type = 'text', autoFillable = true, value = '', autoFocus = false)
+  if(vErrors[0] && vErrors[0].vErrors)
+  .control.has-icons-right
+    input(
+      autofocus=autoFocus
+      type=type
+      placeholder="Ingrese su nombre"
+      id=field
+      name=field
+      value=autoFillable && vErrors && vErrors[0] && vErrors[0].filledValues ? vErrors[0].filledValues[field] : value
+      class=`input ${ vErrors[0] && vErrors[0].vErrors && vErrors[0].vErrors[field] ? 'is-danger' : '' }`
+    )
+    if(vErrors[0] && vErrors[0].vErrors && vErrors[0].vErrors[field])
+      span.icon.is-small.is-right
+        i.fas.fa-exclamation-triangle
+      p.help.is-danger= vErrors[0].vErrors[field].msg

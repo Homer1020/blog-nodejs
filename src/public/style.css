@@ -7,3 +7,13 @@ body {
 #app {
   flex-grow: 1;
 }
+
+.card-post .content {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.content h1 {
+  font-size: 1.3em !important;
+}
