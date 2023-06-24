@@ -1,9 +1,21 @@
 const Comment = require('../models/Comment')
+const { Op } = require('sequelize')
 
 exports.comment = async (req, res) => {
 	try {
 
 		if(!req.session.userId) throw new Error('Es necesario tener una cuenta')
+
+		const countAllByUser = await Comment.count({
+			where: {
+				user_id: req.session.userId,
+				[Op.and]: {
+					post_id: req.body.post_id
+				}
+			}
+		})
+
+		if(countAllByUser === 5) throw new Error('Solo se permiten 5 comentarios por publicación para cada usuario')
 
 		const comment = await Comment.create({
 			...req.body,

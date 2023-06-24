@@ -103,3 +103,11 @@ exports.search = async (req, res) => {
 		q
 	})
 }
+
+exports.contact = (req, res) => {
+	res.render('contact')
+}
+
+exports.about = (req, res) => {
+	res.render('about')
+}

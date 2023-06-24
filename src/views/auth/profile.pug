@@ -12,14 +12,16 @@ block content
 					form(action="/perfil" method="POST" enctype="multipart/form-data")
 						.field
 							label.label(for="picture") Foto de Perfil
-							.file
-							label.file-label
-								input.file-input(type="file" name="picture" id="picture" accept="image/*")
-								span.file-cta
-									span.file-icon
-										i.fas.fa-upload
-									span.file-label
-										| Choose a file…
+							div(class=`file ${ vErrors[0] && vErrors[0].vErrors && vErrors[0].vErrors['picture'] ? 'is-danger' : '' }`)
+								label.file-label
+									input.file-input(type="file" name="picture" id="picture" accept="image/*")
+									span.file-cta
+										span.file-icon
+											i.fas.fa-upload
+										span.file-label
+											| Choose a file…
+							if(vErrors[0] && vErrors[0].vErrors && vErrors[0].vErrors['picture'])
+								p.help.is-danger= vErrors[0].vErrors['picture'].msg
 						.field
 							label.label(for="name") Nombre
 							+input('name', 'text', false, user.name, true)

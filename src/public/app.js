@@ -37,7 +37,7 @@ const handleComment = e => {
       if(!r.ok) {
         Swal.fire({
           title: 'Error!',
-          text: 'Necesitas una cuenta para continuar',
+          text: r?.err || 'Necesitas una cuenta para continuar',
           icon: 'error',
           confirmButtonText: 'Entendido'
         })

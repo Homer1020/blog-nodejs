@@ -2,9 +2,9 @@ const { Router } = require('express')
 const router = Router()
 const { registerView, register, loginView, login, logout, profile, saveProfile } = require('../controllers/auth')
 const { isNotAuthenticated, isAuthenticated } = require('../middlewares/auth')
-const upload = require('../config/upload')
+const uploadWithValidation = require('../middlewares/upload')
 const { body } = require('express-validator')
-const { formValidation } = require('../middlewares/helpers')
+const { profileFormValidation, loginFormValidation } = require('../middlewares/validations')
 
 router.get('/registro', isNotAuthenticated, registerView)
 router.post('/registro',
@@ -38,7 +38,7 @@ router.post('/registro',
     .withMessage('La contraseña es requerida')
     .isLength({ min: 8 })
     .withMessage('La contraseña debe contener minimo 8 caracteres'),
-  formValidation,
+  profileFormValidation,
   register
 )
 router.get('/login', isNotAuthenticated, loginView)
@@ -57,14 +57,14 @@ router.post('/login',
     .withMessage('La contraseña es requerida')
     .isLength({ min: 8 })
     .withMessage('La contraseña debe contener minimo 8 caracteres'),
-  formValidation,
+  loginFormValidation,
   login
 )
 router.get('/logout', isAuthenticated, logout)
 router.get('/perfil', isAuthenticated, profile)
 router.post('/perfil',
   isAuthenticated,
-  upload.single('picture'),
+  uploadWithValidation,
   body('name')
     .notEmpty()
     .withMessage('El nombre es requerido')
@@ -90,10 +90,10 @@ router.post('/perfil',
     .withMessage('Debe ser una dirección de correo valida')
     .trim(),
   body('password')
-    .optional()
     .isLength({ min: 8 })
-    .withMessage('La contraseña debe contener minimo 8 caracteres'),
-  formValidation,
+    .withMessage('La contraseña debe contener minimo 8 caracteres')
+    .optional(),
+  profileFormValidation,
   saveProfile
 )
 

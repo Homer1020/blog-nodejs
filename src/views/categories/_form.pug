@@ -1,22 +1,24 @@
+include ../partials/_input
 .field
   label.label(for="displayName") Nombre 
-  input.input(
-    type="text"
-    placeholder="Ingrese el título de su categoría"
-    id="displayName"
-    name="displayName"
-    value=category.displayName
-    autofocus
-  )
+  +input({
+    field: 'displayName',
+    type: 'text',
+    autoFillable: true,
+    value: category.displayName,
+    autoFocus: true,
+    placeholder: 'Ingrese el título de su categoría'
+  })
 .field
   label.label(for="name") Slug 
-  input.input(
-    type="text"
-    placeholder="Título para computadoras"
-    id="name"
-    name="name"
-    value=category.name
-  )
+  +input({
+    field: 'name',
+    type: 'text',
+    autoFillable: true,
+    value: category.name,
+    autoFocus: false,
+    placeholder: 'Título para computadoras'
+  })
 .field
   label.label(for="description") Descripción 
   textarea.textarea(

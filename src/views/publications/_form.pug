@@ -1,36 +1,40 @@
+include ../partials/_input
 if post.thumbnail
   img#output-image(src='/files/' + post.thumbnail)
 else 
   img#output-image(src='')
 .field
   label.label(for="thumbnail") Imágen Destacada
-  .file
-  label.file-label
-    input.file-input(type="file" name="thumbnail" id="thumbnail" accept="image/*")
-    span.file-cta
-      span.file-icon
-        i.fas.fa-upload
-      span.file-label
-        | Choose a file…
+  div(class=`file ${ vErrors[0] && vErrors[0].vErrors && vErrors[0].vErrors['thumbnail'] ? 'is-danger' : '' }`)
+    label.file-label
+      input.file-input(type="file" name="thumbnail" id="thumbnail" accept="image/*")
+      span.file-cta
+        span.file-icon
+          i.fas.fa-upload
+        span.file-label
+          | Choose a file…
+  if(vErrors[0] && vErrors[0].vErrors && vErrors[0].vErrors['thumbnail'])
+    p.help.is-danger= vErrors[0].vErrors['thumbnail'].msg
 .field
   label.label(for="title") Título 
-  input.input(
-    type="text"
-    placeholder="Ingrese el título de su publicación"
-    id="title"
-    name="title"
-    value=post.title
-    autofocus
-  )
+  +input({
+    field: 'title',
+    type: 'text',
+    autoFillable: true,
+    value: post.title,
+    autoFocus: true,
+    placeholder: 'Ingrese el título de su publicación'
+  })
 .field
   label.label(for="slug") Slug 
-  input.input(
-    type="text"
-    placeholder="Título para computadoras"
-    id="slug"
-    name="slug"
-    value=post.slug
-  )
+  +input({
+    field: 'slug',
+    type: 'text',
+    autoFillable: true,
+    value: post.slug,
+    autoFocus: false,
+    placeholder: 'Título para computadoras'
+  })
 .field
   label.label(for="content") Contenido 
   input(
@@ -42,13 +46,19 @@ else
   trix-editor.textarea.content(input="content" style="resize: auto; overflow: auto")
 .field
   label.label(for="excerpt") Estracto 
-  textarea.textarea(
-    name="excerpt"
-    rows="5"
-    id="excerpt"
-    placeholder="Ingrese un estracto para la publicación (Descripción corta)"
-  )
-   |#{ post.excerpt }
+  .control.has-icons-right
+    textarea(
+      name="excerpt"
+      rows="5"
+      id="excerpt"
+      placeholder="Ingrese un estracto para la publicación (Descripción corta)"
+      class=`textarea ${ vErrors[0] && vErrors[0].vErrors && vErrors[0].vErrors['excerpt'] ? 'is-danger' : '' }`
+    )
+     |#{ vErrors && vErrors[0] && vErrors[0].filledValues ? vErrors[0].filledValues['excerpt'] : post.excerpt }
+    if(vErrors[0] && vErrors[0].vErrors && vErrors[0].vErrors['excerpt'])
+      span.icon.is-small.is-right
+        i.fas.fa-exclamation-triangle
+      p.help.is-danger= vErrors[0].vErrors['excerpt'].msg
 .field
   label.label(for="category") Categoría
   .select(style="width: 100%")

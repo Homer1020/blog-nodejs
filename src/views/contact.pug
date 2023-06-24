@@ -1,0 +1,20 @@
+extends ./layouts/app.pug
+include ./partials/_input.pug
+block content 
+  .container.my-5
+    .columns.is-desktop.is-vcentered
+      .column
+        .box
+          h1.title.is-uppercase.is-4 Contacto
+          form
+            .field
+              label.label(for="name") Nombre 
+              input.input(type="text" name="name" id="name" placeholder="Ingrese su nombre")
+            .field
+              label.label(for="email") Correo 
+              input.input(type="text" name="email" id="email" placeholder="Ingrese su correo")
+            .field
+              label.label(for="content") Mensaje 
+              textarea.textarea(rows="5" name="content" id="content" placeholder="Ingrese su mensaje")
+      .column
+        img(src="/img/contact.svg")

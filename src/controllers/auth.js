@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
 
 		await User.create(data)
 
-		req.flash('success', 'Se creo tu cuenta correctamente')
+		req.flash('info', 'Se creo tu cuenta correctamente')
 		return res.redirect('/login')
 
 	} catch(err) {

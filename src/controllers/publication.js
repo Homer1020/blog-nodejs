@@ -126,7 +126,6 @@ exports.store = async (req, res) => {
   try {
     const { title, slug, content, excerpt, category } = req.body
     if(req.file) {
-      newDataPost.thumbnail = req.file.filename
       const image = await Jimp.read(req.file.path)
       image
         .cover(800, 600) 

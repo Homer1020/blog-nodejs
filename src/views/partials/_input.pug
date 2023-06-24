@@ -1,0 +1,15 @@
+mixin input({ field, type, autoFillable, value, autoFocus, placeholder })
+  .control.has-icons-right
+    input(
+      autofocus=autoFocus
+      type=type
+      placeholder=placeholder
+      id=field
+      name=field
+      value=autoFillable && vErrors && vErrors[0] && vErrors[0].filledValues ? vErrors[0].filledValues[field] : value
+      class=`input ${ vErrors[0] && vErrors[0].vErrors && vErrors[0].vErrors[field] ? 'is-danger' : '' }`
+    )
+    if(vErrors[0] && vErrors[0].vErrors && vErrors[0].vErrors[field])
+      span.icon.is-small.is-right
+        i.fas.fa-exclamation-triangle
+      p.help.is-danger= vErrors[0].vErrors[field].msg
