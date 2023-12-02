@@ -26,7 +26,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET_KEY,
   resave: true,
   saveUninitialized: true,
-  cookie: { secure: false } // activar solo en https
+  cookie: { secure: true } // activar solo en https
 }))
 app.use(flash())
 app.use(express.static(path.join(__dirname, '../public')))
